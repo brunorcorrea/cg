@@ -8,7 +8,7 @@ var maxX = 20,
     maxY = 20;
 
 const convertCoords = (x, y) => {
-    gpuCoords = {
+    let gpuCoords = {
         min: {
             x: -1,
             y: -1,
