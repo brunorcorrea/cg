@@ -34,7 +34,7 @@ class Utils {
   in vec2 aPosition;
   
   void main(){
-  gl_PointSize = 20.0;
+  gl_PointSize = 40.0;
   gl_Position = vec4(aPosition, 0.0, 1.0);
   }`,
         fragmentShader = `#version 300 es
