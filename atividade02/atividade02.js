@@ -23,7 +23,6 @@ function printOutline() {
 }
 
 function print(positions, pixels) {
-    console.log(filledPositions)
     for (var i = 0; i < positions.length; i++) {
         var { x, y } = utils.convertCoords({
             x: positions[i].x,
@@ -72,7 +71,7 @@ function wasPixelInStack(pixel) {
 
 function pps() {
     let stack = [];
-    let seed = { x: 10, y: 10 }; //TODO trocar pra usar elementos dentro da figura (respeitando o outline)
+    let seed = { x: 12, y: 7 };
     stack.push(seed);
 
     while (stack.length !== 0) {
@@ -92,21 +91,7 @@ printOutline();
 pps();
 fillShape();
 
-console.log("outlinePixels: " + outlinePixels)
-console.log("filledPixels: " + filledPixels)
-
-utils.initBuffer({ vertices: outlinePixels });
+utils.initBuffer({ vertices: outlinePixels.concat(filledPixels) });
 utils.initShader();
-utils.linkBuffer({ variable: "aPosition", reading: 2 });
-utils.drawElements();
-
-utils.initBuffer({ vertices: filledPixels });
-utils.initShader({
-    fragmentShader: `#version 300 es
-precision highp float;
-out vec4 fColor;
-void main(){
-   fColor=vec4(1, 1, 0.0, 1.0);
-}`}); //TODO permitir selecionar a cor de preenchimento via variáveis
 utils.linkBuffer({ variable: "aPosition", reading: 2 });
 utils.drawElements();

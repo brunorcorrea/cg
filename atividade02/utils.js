@@ -1,7 +1,7 @@
 class Utils {
     constructor({
-        width = 400,
-        height = 400,
+        width = 800,
+        height = 600,
         r = 0.1,
         g = 0.3,
         b = 0.3,
@@ -15,7 +15,6 @@ class Utils {
         this.gl = canvas.getContext("webgl2");
 
         this.gl.clearColor(r, g, b, a);
-        [-1, -1, 0, 1, 1, -1]
         this.gl.clear(this.gl.DEPTH_BUFFER_BIT | this.gl.COLOR_BUFFER_BIT);
     }
 
@@ -35,7 +34,7 @@ class Utils {
   in vec2 aPosition;
   
   void main(){
-  gl_PointSize = 10.0;
+  gl_PointSize = 20.0;
   gl_Position = vec4(aPosition, 0.0, 1.0);
   }`,
         fragmentShader = `#version 300 es
