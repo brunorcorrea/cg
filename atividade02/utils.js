@@ -14,6 +14,7 @@ class Utils {
 
         this.gl = canvas.getContext("webgl2");
 
+        this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.clearColor(r, g, b, a);
         this.gl.clear(this.gl.DEPTH_BUFFER_BIT | this.gl.COLOR_BUFFER_BIT);
     }
