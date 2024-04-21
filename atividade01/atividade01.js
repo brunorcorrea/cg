@@ -27,8 +27,8 @@ const convertCoords = (x, y) => {
     return { convertedX, convertedY };
 };
 
-const bressenham = (x1, y1, x2, y2) => {
-    const bressenhamVertices = [];
+const bresenham = (x1, y1, x2, y2) => {
+    const bresenhamVertices = [];
 
     let deltaX = x2 - x1;
     let deltaY = y2 - y1;
@@ -39,7 +39,7 @@ const bressenham = (x1, y1, x2, y2) => {
         y = y1;
     for (let i = 1; i <= deltaX; i++) {
         let coords = convertCoords(x, y);
-        bressenhamVertices.push(coords.convertedX, coords.convertedY);
+        bresenhamVertices.push(coords.convertedX, coords.convertedY);
 
         while (e >= 0) {
             y = y + 1;
@@ -49,7 +49,7 @@ const bressenham = (x1, y1, x2, y2) => {
         e = e + m;
     }
 
-    return bressenhamVertices;
+    return bresenhamVertices;
 };
 
 const dda = (x1, y1, x2, y2) => {
@@ -74,8 +74,8 @@ const dda = (x1, y1, x2, y2) => {
     return ddaVertices;
 }
 
-// var vertices = bressenham(0, 0, 20, 13);
-var vertices = dda(0, 0, 20, 13);
+var vertices = bresenham(0, 0, 20, 13);
+// var vertices = dda(0, 0, 20, 13);
 
 var bufferId = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, bufferId);
