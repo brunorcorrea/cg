@@ -2,6 +2,10 @@ var sceneSize = 200
 var utils = new Utils({
   width: sceneSize * 3, // três colunas
   height: sceneSize * 2, // duas linhas
+  r: 0.8,
+  g: 0.8,
+  b: 0,
+  a: 0.7
 });
 
 var vertices = [];

@@ -12,6 +12,7 @@ class Utils {
 
     canvas.width = width;
     canvas.height = height;
+    this.backgroundColor = {r,g,b,a};
 
     /*
 	  Quando preserveDrawingBuffer for marcado como "true", o
@@ -162,7 +163,7 @@ void main(){
     this.gl.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
 
     //
-    this.gl.clearColor(0.1, 0.2, 0.3, 0.4);
+    this.gl.clearColor(this.backgroundColor.r, this.backgroundColor.g, this.backgroundColor.b, this.backgroundColor.a);
     // Agora o clear será dado apenas no retângulo
     this.gl.clear(this.gl.DEPTH_BUFFER_BIT | this.gl.COLOR_BUFFER_BIT);
 
