@@ -1,7 +1,7 @@
-var sceneSize = 200
+var viewPortSize = 200
 var utils = new Utils({
-  width: sceneSize * 3, // três colunas
-  height: sceneSize * 2, // duas linhas
+  width: viewPortSize * 3, // três colunas
+  height: viewPortSize * 2, // duas linhas
   r: 0.8,
   g: 0.8,
   b: 0,
@@ -49,7 +49,6 @@ utils.initShader({
   in vec2 textCoords;
   uniform sampler2D uSampler;
   out vec2 textureCoords;
-
 
     void main(){
       vec3 angles = radians(theta);
@@ -252,9 +251,9 @@ function render() {
   utils.linkUniformVariable({ shaderName: "uSampler", value: 0, kind: "1i" })
   utils.drawScene({
     method: "TRIANGLES", viewport: {
-      x: 0, y: sceneSize,
-      width: sceneSize,
-      height: sceneSize
+      x: 0, y: viewPortSize,
+      width: viewPortSize,
+      height: viewPortSize
     }
   });
 
@@ -268,9 +267,9 @@ function render() {
   utils.linkUniformVariable({ shaderName: "uSampler", value: 1, kind: "1i" })
   utils.drawScene({
     method: "TRIANGLES", viewport: {
-      x: sceneSize, y: sceneSize,
-      width: sceneSize,
-      height: sceneSize
+      x: viewPortSize, y: viewPortSize,
+      width: viewPortSize,
+      height: viewPortSize
     }
   });
 
@@ -286,10 +285,10 @@ function render() {
     method: "TRIANGLES",
 
     viewport: {
-      x: 2 * sceneSize, y: sceneSize,
+      x: 2 * viewPortSize, y: viewPortSize,
 
-      width: sceneSize,
-      height: sceneSize
+      width: viewPortSize,
+      height: viewPortSize
     }
   });
 
@@ -305,8 +304,8 @@ function render() {
     method: "TRIANGLES",
     viewport: {
       x: 0, y: 0,
-      width: sceneSize,
-      height: sceneSize
+      width: viewPortSize,
+      height: viewPortSize
     }
   });
   // Quinta Célula
@@ -320,9 +319,9 @@ function render() {
   utils.drawScene({
     method: "TRIANGLES",
     viewport: {
-      x: sceneSize, y: 0,
-      width: sceneSize,
-      height: sceneSize
+      x: viewPortSize, y: 0,
+      width: viewPortSize,
+      height: viewPortSize
     }
   });
   // Sexta célula
@@ -336,9 +335,9 @@ function render() {
   utils.drawScene({
     method: "TRIANGLES",
     viewport: {
-      x: 2 * sceneSize, y: 0,
-      width: sceneSize,
-      height: sceneSize
+      x: 2 * viewPortSize, y: 0,
+      width: viewPortSize,
+      height: viewPortSize
     }
   });
 
