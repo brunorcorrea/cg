@@ -47,7 +47,6 @@ utils.initShader({
   uniform mat4 uViewMatrix; // Matriz da câmera
   uniform mat4 uProjectionMatrix; // Matriz de projeção
   in vec2 textCoords;
-  uniform sampler2D uSampler;
   out vec2 textureCoords;
 
     void main(){
@@ -76,13 +75,12 @@ utils.initShader({
     }`,
   fragmentShader: `#version 300 es
       precision highp float;
-      uniform sampler2D uSampler; // Sampler para a textura em gl.TEXTURE0
+      uniform sampler2D uSampler;
       in vec2 textureCoords;
 
       out vec4 fColor;
       void main(){
         fColor = texture(uSampler, textureCoords);
-
       }`,
 });
 
@@ -162,12 +160,7 @@ var transform_z = 0;
 var speed = 100;
 
 var gl = utils.gl;
-var textureAbacaxi = gl.createTexture();
-var textureLaranja = gl.createTexture();
-var textureMaca = gl.createTexture();
-var textureMorango = gl.createTexture();
-var texturePessego = gl.createTexture();
-var textureUva = gl.createTexture();
+var textureAbacaxi, textureLaranja, textureMaca, textureMorango, texturePessego, textureUva
 
 var imageAbacaxi = new Image();
 var imageLaranja = new Image();
@@ -227,7 +220,6 @@ var textureCoordinates = [
   0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
   0.0, 0.0, 1.0, 1.0, 0.0, 1.0,
 ];
-
 
 utils.initBuffer({ vertices: textureCoordinates });
 utils.linkBuffer({ reading: 2, variable: "textCoords" });
