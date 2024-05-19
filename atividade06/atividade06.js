@@ -14,19 +14,75 @@ var cubeVertices = [
   [0.5, -0.5, -0.5],
 ];
 
+// var cubeTextureCoords = [
+//   // Face frontal
+//   [0.0, 0.0],
+//   [1 / 3, 0.0],
+//   [1 / 3, 1 / 3],
+//   [0.0, 1 / 3],
+//   // Face traseira
+//   [2 / 3, 0.0],
+//   [1.0, 0.0],
+//   [1.0, 1 / 3],
+//   [2 / 3, 1 / 3],
+//   // Face superior
+//   [1 / 3, 2 / 3],
+//   [2 / 3, 2 / 3],
+//   [2 / 3, 1.0],
+//   [1 / 3, 1.0],
+//   // Face inferior
+//   [1 / 3, 1 / 3],
+//   [2 / 3, 1 / 3],
+//   [2 / 3, 2 / 3],
+//   [1 / 3, 2 / 3],
+//   // Face esquerda
+//   [0.0, 1 / 3],
+//   [1 / 3, 1 / 3],
+//   [1 / 3, 2 / 3],
+//   [0.0, 2 / 3],
+//   // Face direita
+//   [2 / 3, 1 / 3],
+//   [1.0, 1 / 3],
+//   [1.0, 2 / 3],
+//   [2 / 3, 2 / 3],
+// ];
+
 var cubeTextureCoords = [
-  // Face frontal
-  [0.0, 2/3], [1/3, 2/3], [1/3, 1.0], [0.0, 1.0], 
-  // Face traseira
-  [1/3, 2/3], [2/3, 2/3], [2/3, 1.0], [1/3, 1.0], 
-  // Face superior
-  [2/3, 2/3], [1.0, 2/3], [1.0, 1.0], [2/3, 1.0], 
-  // Face inferior
-  [0.0, 1/3], [1/3, 1/3], [1/3, 2/3], [0.0, 2/3], 
-  // Face esquerda
-  [1/3, 1/3], [2/3, 1/3], [2/3, 2/3], [1/3, 2/3], 
-  // Face direita
-  [2/3, 1/3], [1.0, 1/3], [1.0, 2/3], [2/3, 2/3], 
+  // Face frontal (sentido anti-horário) //suvete
+  [0.0, 0.5],
+  [0.333, 0.5],
+  [0.333, 0.0],
+  [0.0, 0.0],
+  // Face traseira (sentido anti-horário) //açai
+  [0.667, 0.5],
+  [1.0, 0.5],
+  [1.0, 0.0],
+  [0.667, 0.0],
+  // Face superior (sentido anti-horário) //batata
+  [0.333, 1.0],
+  [0.667, 1.0],
+  [0.667, 0.5],
+  [0.333, 0.5],
+  // Face inferior (sentido anti-horário)
+  [0.333, 0.5],
+  [0.667, 0.5],
+  [0.667, 0.0],
+  [0.333, 0.0],
+  // Face esquerda (sentido anti-horário) //hamburguer
+  [0.333, 0.5],
+  [0.667, 0.5],
+  [0.667, 1.0],
+  [0.333, 1.0],
+  // Face direita (sentido anti-horário) //pizza
+  [0.667, 0.5],
+  [1.0, 0.5],
+  [1.0, 1.0],
+  [0.667, 1.0],
+  // Face superior (sentido anti-horário) //coca
+  [0, 1],
+  [0.333, 1],
+  [0.333, 0.5],
+  [0, 0.5],
 ];
 
 const makeFace = (v1, v2, v3, v4, t1, t2, t3, t4) => {
@@ -40,12 +96,66 @@ const makeFace = (v1, v2, v3, v4, t1, t2, t3, t4) => {
 };
 
 // Criar cada face do cubo
-makeFace(0, 1, 2, 3, cubeTextureCoords[0], cubeTextureCoords[1], cubeTextureCoords[2], cubeTextureCoords[3]); // Frontal
-makeFace(4, 5, 6, 7, cubeTextureCoords[4], cubeTextureCoords[5], cubeTextureCoords[6], cubeTextureCoords[7]); // Traseira
-makeFace(1, 5, 6, 2, cubeTextureCoords[8], cubeTextureCoords[9], cubeTextureCoords[10], cubeTextureCoords[11]); // Superior
-makeFace(0, 3, 7, 4, cubeTextureCoords[12], cubeTextureCoords[13], cubeTextureCoords[14], cubeTextureCoords[15]); // Inferior
-makeFace(0, 1, 5, 4, cubeTextureCoords[16], cubeTextureCoords[17], cubeTextureCoords[18], cubeTextureCoords[19]); // Esquerda
-makeFace(3, 2, 6, 7, cubeTextureCoords[20], cubeTextureCoords[21], cubeTextureCoords[22], cubeTextureCoords[23]); // Direita
+makeFace(
+  0,
+  1,
+  2,
+  3,
+  cubeTextureCoords[0],
+  cubeTextureCoords[1],
+  cubeTextureCoords[2],
+  cubeTextureCoords[3]
+); // Frontal
+makeFace(
+  4,
+  5,
+  6,
+  7,
+  cubeTextureCoords[4],
+  cubeTextureCoords[5],
+  cubeTextureCoords[6],
+  cubeTextureCoords[7]
+); // Traseira
+makeFace(
+  1,
+  5,
+  6,
+  2,
+  cubeTextureCoords[8],
+  cubeTextureCoords[9],
+  cubeTextureCoords[10],
+  cubeTextureCoords[11]
+); // Superior
+makeFace(
+  0,
+  3,
+  7,
+  4,
+  cubeTextureCoords[12],
+  cubeTextureCoords[13],
+  cubeTextureCoords[14],
+  cubeTextureCoords[15]
+); // Inferior
+makeFace(
+  0,
+  1,
+  5,
+  4,
+  cubeTextureCoords[16],
+  cubeTextureCoords[17],
+  cubeTextureCoords[18],
+  cubeTextureCoords[19]
+); // Esquerda
+makeFace(
+  3,
+  2,
+  6,
+  7,
+  cubeTextureCoords[20],
+  cubeTextureCoords[21],
+  cubeTextureCoords[22],
+  cubeTextureCoords[23]
+); // Direita
 
 utils.initShader({
   vertexShader: `#version 300 es
@@ -209,11 +319,11 @@ function changeSpeed(newSpeed) {
     clearTimeout(timeoutId);
     timeoutId = -1;
   } else if (timeoutId == -1) {
-    timeoutId = blabla();
+    timeoutId = setRenderTimeout();
   }
 }
 
-function blabla() {
+function setRenderTimeout() {
   return setTimeout(render, speed);
 }
 
@@ -245,7 +355,7 @@ function render() {
   translation[1] += translation_y;
   translation[2] += translation_z;
 
-  timeoutId = blabla();
+  timeoutId = setRenderTimeout();
 }
 
 render();
