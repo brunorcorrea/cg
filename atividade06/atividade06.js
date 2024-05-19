@@ -14,71 +14,33 @@ var cubeVertices = [
   [0.5, -0.5, -0.5],
 ];
 
-// var cubeTextureCoords = [
-//   // Face frontal
-//   [0.0, 0.0],
-//   [1 / 3, 0.0],
-//   [1 / 3, 1 / 3],
-//   [0.0, 1 / 3],
-//   // Face traseira
-//   [2 / 3, 0.0],
-//   [1.0, 0.0],
-//   [1.0, 1 / 3],
-//   [2 / 3, 1 / 3],
-//   // Face superior
-//   [1 / 3, 2 / 3],
-//   [2 / 3, 2 / 3],
-//   [2 / 3, 1.0],
-//   [1 / 3, 1.0],
-//   // Face inferior
-//   [1 / 3, 1 / 3],
-//   [2 / 3, 1 / 3],
-//   [2 / 3, 2 / 3],
-//   [1 / 3, 2 / 3],
-//   // Face esquerda
-//   [0.0, 1 / 3],
-//   [1 / 3, 1 / 3],
-//   [1 / 3, 2 / 3],
-//   [0.0, 2 / 3],
-//   // Face direita
-//   [2 / 3, 1 / 3],
-//   [1.0, 1 / 3],
-//   [1.0, 2 / 3],
-//   [2 / 3, 2 / 3],
-// ];
-
 var cubeTextureCoords = [
-  // Face frontal (sentido anti-horário) //suvete
+  // Face frontal (sentido anti-horário) // pizza
   [0.0, 0.5],
   [0.333, 0.5],
   [0.333, 0.0],
   [0.0, 0.0],
-  // Face traseira (sentido anti-horário) //açai
+  // Face traseira (sentido anti-horário) // coca
   [0.667, 0.5],
   [1.0, 0.5],
   [1.0, 0.0],
   [0.667, 0.0],
-  // Face superior (sentido anti-horário) //batata
-  [0.333, 1.0],
-  [0.667, 1.0],
-  [0.667, 0.5],
-  [0.333, 0.5],
-  // Face inferior (sentido anti-horário)
+  // Face inferior (sentido anti-horário) // hamburguer
   [0.333, 0.5],
   [0.667, 0.5],
   [0.667, 0.0],
   [0.333, 0.0],
-  // Face esquerda (sentido anti-horário) //hamburguer
+  // Face esquerda (sentido anti-horário) // batata
   [0.333, 0.5],
   [0.667, 0.5],
   [0.667, 1.0],
   [0.333, 1.0],
-  // Face direita (sentido anti-horário) //pizza
+  // Face direita (sentido anti-horário) // acai
   [0.667, 0.5],
   [1.0, 0.5],
   [1.0, 1.0],
   [0.667, 1.0],
-  // Face superior (sentido anti-horário) //coca
+  // Face superior (sentido anti-horário) // sorvete
   [0, 1],
   [0.333, 1],
   [0.333, 0.5],
@@ -121,40 +83,40 @@ makeFace(
   5,
   6,
   2,
-  cubeTextureCoords[8],
-  cubeTextureCoords[9],
-  cubeTextureCoords[10],
-  cubeTextureCoords[11]
+  cubeTextureCoords[20],
+  cubeTextureCoords[21],
+  cubeTextureCoords[22],
+  cubeTextureCoords[23]
 ); // Superior
 makeFace(
   0,
   3,
   7,
   4,
-  cubeTextureCoords[12],
-  cubeTextureCoords[13],
-  cubeTextureCoords[14],
-  cubeTextureCoords[15]
+  cubeTextureCoords[8],
+  cubeTextureCoords[9],
+  cubeTextureCoords[10],
+  cubeTextureCoords[11]
 ); // Inferior
 makeFace(
   0,
   1,
   5,
   4,
-  cubeTextureCoords[16],
-  cubeTextureCoords[17],
-  cubeTextureCoords[18],
-  cubeTextureCoords[19]
+  cubeTextureCoords[12],
+  cubeTextureCoords[13],
+  cubeTextureCoords[14],
+  cubeTextureCoords[15]
 ); // Esquerda
 makeFace(
   3,
   2,
   6,
   7,
-  cubeTextureCoords[20],
-  cubeTextureCoords[21],
-  cubeTextureCoords[22],
-  cubeTextureCoords[23]
+  cubeTextureCoords[16],
+  cubeTextureCoords[17],
+  cubeTextureCoords[18],
+  cubeTextureCoords[19]
 ); // Direita
 
 utils.initShader({
