@@ -177,15 +177,14 @@ utils.initShader({
 utils.initBuffer({ vertices: vertices });
 utils.linkBuffer({ variable: "aPosition", reading: 3 });
 
-// Inicializando e linkando as coordenadas de textura
 utils.initBuffer({ vertices: textureCoords });
 utils.linkBuffer({ variable: "aTextureCoord", reading: 2 });
 
-var pudimImage = new Image();
-pudimImage.src = "texturas/delicia.png";
-pudimImage.onload = function () {
-  var pudimTexture = utils.initTexture(pudimImage);
-  utils.activateTexture(pudimTexture, 0);
+var deliciousImage = new Image();
+deliciousImage.src = "texturas/delicia.png";
+deliciousImage.onload = function () {
+  var deliciousTexture = utils.initTexture(deliciousImage);
+  utils.activateTexture(deliciousTexture, 0);
 };
 
 var theta = [0, 0, 0];
