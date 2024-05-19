@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+ 
+<title>Atividade 06</title>
+</head>
+<body>
+<canvas id="canvas">
+Infelizmente, o seu browser não dá suporte ao elemento Canvas
+,→ do HTML5.
+</canvas>
+
+<div>
+Velocidade da Animação 0% <input id="slider" type="range" min="0" max="100" step="10" value="50" oninput="changeSpeed(this.value)"/>
+ 100%
+</div>
+
+<button id="RotationX" onclick="rotateX()">Mudar Direção da Rotação X</button>
+
+<button id="RotationStartX" onclick="rotateStartX()">Iniciar a Rotação X</button>
+
+<button id="RotationStopX" onclick="rotateStopX()">Parar a Rotação X</button>
+
+<hr/>
+
+<button id="RotationY" onclick="rotateY()">Mudar Direção da Rotação Y</button>
+
+<button id="RotationStartY" onclick="rotateStartY()">Iniciar a Rotação Y</button>
+
+<button id="RotationStopY" onclick="rotateStopY()">Parar a Rotação Y</button>
+
+<hr/>
+
+<button id="RotationZ" onclick="rotateZ()">Mudar Direção da Rotação Z</button>
+
+<button id="RotationStartZ" onclick="rotateStartZ()">Iniciar a Rotação Z</button>
+
+<button id="RotationStopZ" onclick="rotateStopZ()">Parar a Rotação Z</button>
+
+<hr/>
+
+<button id="ScaleDirection" onclick="changeScale()">Mudar Direção da Mudança de Escala</button>
+
+<button id="ScaleStart" onclick="startScale()">Iniciar a Mudança de Escala</button>
+
+<button id="ScaleStop" onclick="stopScale()">Parar a Mudança de Escala</button>
+
+<hr/>
+
+<button id="TranslationX" onclick="translateChangeX()">Mudar Direção da Translação X</button>
+
+<button id="TranslationStartX" onclick="translateStartX()">Iniciar a Translação X</button>
+
+<button id="TranslationStopX" onclick="translateStopX()">Parar a Translação X</button>
+
+<hr/>
+
+<button id="TranslationY" onclick="translateChangeY()">Mudar Direção da Translação Y</button>
+
+<button id="TranslationStartY" onclick="translateStartY()">Iniciar a Translação Y</button>
+
+<button id="TranslationStopY" onclick="translateStopY()">Parar a Translação Y</button>
+
+<hr/>
+
+<button id="TranslationZ" onclick="translateChangeZ()">Mudar Direção da Translação Z</button>
+
+<button id="TranslationStartZ" onclick="translateStartZ()">Iniciar a Translação Z</button>
+
+<button id="TranslationStopZ" onclick="translateStopZ()">Parar a Translação Z</button>
+
+
+</body>
+
+<!-- Criar as Matrizes de Projeção e Visualização.  Para criar essas -->
+<!-- matrizes, vamos usar a biblioteca glMatrix, amplamente -->
+<!-- utilizada junto com WebGL para manipulação de vetores e matrizes. -->
+
+<script src="https://cdn.jsdelivr.net/npm/gl-matrix@2.8.1/dist/gl-matrix-min.js"></script>
+<script type="text/javascript" src="utils.js"></script>
+<script type="text/javascript" src="atividade06.js"></script>
+</html>
