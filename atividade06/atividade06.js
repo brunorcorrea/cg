@@ -15,36 +15,36 @@ var cubeVertices = [
 ];
 
 var cubeTextureCoords = [
-  // Face frontal (sentido anti-horário) // pizza
-  [0.0, 0.5],
-  [0.333, 0.5],
-  [0.333, 0.0],
-  [0.0, 0.0],
-  // Face traseira (sentido anti-horário) // coca
-  [0.667, 0.5],
-  [1.0, 0.5],
-  [1.0, 0.0],
-  [0.667, 0.0],
-  // Face inferior (sentido anti-horário) // hamburguer
-  [0.333, 0.5],
-  [0.667, 0.5],
-  [0.667, 0.0],
-  [0.333, 0.0],
-  // Face esquerda (sentido anti-horário) // batata
-  [0.333, 0.5],
-  [0.667, 0.5],
-  [0.667, 1.0],
-  [0.333, 1.0],
-  // Face direita (sentido anti-horário) // acai
-  [0.667, 0.5],
-  [1.0, 0.5],
-  [1.0, 1.0],
-  [0.667, 1.0],
-  // Face superior (sentido anti-horário) // sorvete
+  // coca
   [0, 1],
   [0.333, 1],
   [0.333, 0.5],
   [0, 0.5],
+  // hamburguer
+  [0.333, 0.5],
+  [0.667, 0.5],
+  [0.667, 1.0],
+  [0.333, 1.0],
+  // pizza
+  [0.667, 0.5],
+  [1.0, 0.5],
+  [1.0, 1.0],
+  [0.667, 1.0],
+  // sorvete
+  [0.0, 0.5],
+  [0.333, 0.5],
+  [0.333, 0.0],
+  [0.0, 0.0],
+  // batata
+  [0.333, 0.5],
+  [0.667, 0.5],
+  [0.667, 0.0],
+  [0.333, 0.0],
+  // acai
+  [0.667, 0.5],
+  [1.0, 0.5],
+  [1.0, 0.0],
+  [0.667, 0.0],
 ];
 
 const makeFace = (v1, v2, v3, v4, t1, t2, t3, t4) => {
@@ -69,24 +69,14 @@ makeFace(
   cubeTextureCoords[3]
 ); // Frontal
 makeFace(
-  4,
-  5,
-  6,
-  7,
-  cubeTextureCoords[4],
-  cubeTextureCoords[5],
-  cubeTextureCoords[6],
-  cubeTextureCoords[7]
-); // Traseira
-makeFace(
   1,
   5,
   6,
   2,
-  cubeTextureCoords[20],
-  cubeTextureCoords[21],
-  cubeTextureCoords[22],
-  cubeTextureCoords[23]
+  cubeTextureCoords[4],
+  cubeTextureCoords[5],
+  cubeTextureCoords[6],
+  cubeTextureCoords[7]
 ); // Superior
 makeFace(
   0,
@@ -99,25 +89,35 @@ makeFace(
   cubeTextureCoords[11]
 ); // Inferior
 makeFace(
-  0,
-  1,
-  5,
-  4,
-  cubeTextureCoords[12],
-  cubeTextureCoords[13],
-  cubeTextureCoords[14],
-  cubeTextureCoords[15]
-); // Esquerda
-makeFace(
   3,
   2,
   6,
   7,
+  cubeTextureCoords[12],
+  cubeTextureCoords[13],
+  cubeTextureCoords[14],
+  cubeTextureCoords[15]
+); // Direita
+makeFace(
+  0,
+  1,
+  5,
+  4,
   cubeTextureCoords[16],
   cubeTextureCoords[17],
   cubeTextureCoords[18],
   cubeTextureCoords[19]
-); // Direita
+); // Esquerda
+makeFace(
+  4,
+  5,
+  6,
+  7,
+  cubeTextureCoords[20],
+  cubeTextureCoords[21],
+  cubeTextureCoords[22],
+  cubeTextureCoords[23]
+); // Traseira
 
 utils.initShader({
   vertexShader: `#version 300 es
