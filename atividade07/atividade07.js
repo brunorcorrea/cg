@@ -3,7 +3,6 @@ var utils = new Utils();
 // Colocaremos aqui os dado que passaremos para a GPU
 var textureCoords = [];
 var vertices = [];
-var normals = []; // Precisamos agora do vetor normal de cada face para começar a computar.
 
 var cubeVertices = [
   [-0.5, -0.5, 0.5],
@@ -49,74 +48,13 @@ var cubeTextureCoords = [
   [0.667, 0.0],
 ];
 
-/*
-  A função recebe três pontos assumidamente distintos.  Como esses
-  pontos são distintos, eles representam um plano. Para computar a
-  direção do vetor normal que intuitivamente conhecemos como regra da
-  mão direita, precisamos seguir alguns passos.
-
-  Primeiro, você precisa de dois vetores que estão no plano formado
-  pelos três pontos. Esses vetores podem ser encontrados subtraindo as
-  coordenadas de um ponto pelas coordenadas de outro ponto. Por
-  exemplo, dados três pontos A, B e C, podemos definir dois vetores AB
-  e AC.
-
-  AB = B - A; AC = C - A;
-  
-  Segundo, vetor normal ao plano pode ser encontrado usando o produto
-  vetorial dos dois vetores no plano. O produto vetorial de dois
-  vetores resultará em um terceiro vetor perpendicular a ambos, e,
-  portanto, normal ao plano.
-
-  Nx = ABy * ACz − ABz * ACy
-  Ny = ABz * ACx − ABx * ACz
-  Nz = ABx * ACy − ABy * ACx
-
-*/
-function computeProdutoVetorial(A, B, C) {
-  // Extrair coordenadas dos pontos
-  const Ax = A[0],
-    Ay = A[1],
-    Az = A[2];
-  const Bx = B[0],
-    By = B[1],
-    Bz = B[2];
-  const Cx = C[0],
-    Cy = C[1],
-    Cz = C[2];
-
-  // Formar vetores AB e AC
-  const ABx = Bx - Ax;
-  const ABy = By - Ay;
-  const ABz = Bz - Az;
-  const ACx = Cx - Ax;
-  const ACy = Cy - Ay;
-  const ACz = Cz - Az;
-
-  // Calcular o produto vetorial de AB e AC
-  const i = ABy * ACz - ABz * ACy;
-  const j = ABz * ACx - ABx * ACz;
-  const k = ABx * ACy - ABy * ACx;
-
-  // Retornar o vetor resultante
-  return [i, j, k];
-}
-
 const makeFace = (v1, v2, v3, v4, t1, t2, t3, t4) => {
   var indices = [v1, v2, v3, v4, v3, v1];
   var texCoords = [t1, t2, t3, t4, t3, t1];
-  var normal = computeProdutoVetorial(
-    cubeVertices[v1],
-    cubeVertices[v2],
-    cubeVertices[v3]
-  );
 
   indices.forEach((index, i) => {
     cubeVertices[index].forEach((coord) => vertices.push(coord));
     texCoords[i].forEach((coord) => textureCoords.push(coord));
-    normals.push(normal[0]);
-    normals.push(normal[1]);
-    normals.push(normal[2]);
   });
 };
 
@@ -182,14 +120,11 @@ makeFace(
   cubeTextureCoords[23]
 ); // Traseira
 
-// Criamos agora as variáveis aPosition e aColor para recebermos tanto
-// a posição quanto as cores de cada vértice.
 utils.initShader({
   vertexShader: `#version 300 es
 precision mediump float;
 
 in vec3 aPosition;
-in vec3 aNormal;
 in vec3 aColor;
 in vec2 aTextureCoord;
 out vec2 vTextureCoord;
@@ -215,15 +150,6 @@ uniform float uYaw;
 uniform vec3 theta;  // Ângulos de rotação para x, y, z
 uniform vec3 uTranslation;  // Vetor de translação
 uniform float uScale;  // Fator de escala
-uniform vec3 uLightPosition;  // Posição da fonte de luz Spotlight
-uniform vec3 uLightDirection;  // Direção da luz Spotlight
-uniform float uCutOff;  // Ângulo de corte do cone de luz
-uniform float uOuterCutOff;  // Ângulo externo do cone de luz para suavizar as bordas
-uniform vec3 uAmbientLight;  // Luz ambiente
-uniform vec3 uLightColor;  // Cor da luz
-
-out vec3 vNormal;  // Normal para cálculo no fragment shader
-out vec3 vLightDir;  // Direção da luz para cálculo no fragment shader
 out vec3 vViewPosition;  // Posição do ponto de vista para cálculo no fragment shader
 out vec4 vColor;  // Cor para interpolação
 
@@ -278,17 +204,12 @@ void main() {
                    sinuYaw, 0.0,  cosuYaw, 0.0,
                    0.0, 0.0,  0.0, 1.0);
 
-    // Todo: Adicione as matrizes relacionadas à câmera à esquerda da
-    // da translação do objeto. 
+    // Todo: Adicione as matrizes relacionadas à câmera à esquerda da translação do objeto. 
     mat4 modelMatrix = uProjectionMatrix * cameraRotationy * cameraRotationx * uViewMatrix * translationMatrix * scaleMatrix * rz * ry * rx ;
    
     vec4 transformedPosition = modelMatrix * vec4(aPosition, 1.0);
 
     gl_Position = transformedPosition;
-
-    // Passa as normais transformadas e outros dados para o fragment shader
-    vNormal = normalize(mat3(transpose(inverse(modelMatrix))) * aNormal);
-    vLightDir = normalize(uLightPosition - vec3(transformedPosition));
     vViewPosition = vec3(transformedPosition);
     vTextureCoord = aTextureCoord;
 }
@@ -297,8 +218,6 @@ void main() {
 precision mediump float;
 
 in vec4 vColor;  // Cor vinda do vertex shader
-in vec3 vNormal; // Normal transformada vinda do vertex shader
-in vec3 vLightDir; // Direção da luz vinda do vertex shader
 in vec2 vTextureCoord;
 in vec3 vViewPosition; // Posição do vértice vinda do vertex shader
 
@@ -308,35 +227,9 @@ uniform float uKernel[9];
 
 out vec4 fColor;
 
-uniform vec3 uLightPosition; // Posição da fonte de luz Spotlight
-uniform vec3 uLightDirection; // Direção da luz Spotlight
-uniform vec3 uLightColor; // Cor da luz
-uniform vec3 uAmbientLight; // Luz ambiente
-uniform float uCutOff; // Ângulo de corte do cone de luz
 uniform float uOuterCutOff; // Ângulo externo para suavização na borda do cone
 
 void main() {
-    // Calcula componente ambiente
-    vec3 ambient = uAmbientLight * vColor.rgb;
-
-    // Calcula componente difusa
-    vec3 norm = normalize(vNormal);
-    vec3 lightDir = normalize(vLightDir);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = uLightColor * diff * vColor.rgb;
-
-    // Calcula componente especular (não implementado aqui para simplificação)
-
-    // Calcula a atenuação do Spotlight
-    float theta = dot(lightDir, normalize(-uLightDirection));
-    float epsilon = uCutOff - uOuterCutOff;
-    float intensity = clamp((theta - uOuterCutOff) / epsilon, 0.0, 1.0);
-    if (theta > uCutOff)
-        intensity = 0.0;
-
-    // Combina os componentes de iluminação
-    vec3 lighting = (ambient + diffuse * intensity);
-    //fColor = vec4(lighting, vColor.a); // Mantém o canal alpha da cor original
     vec2 onePixel = vec2(1.0, 1.0) / uTextureSize;
 
     vec4 colorSum = vec4(0.0);
@@ -359,10 +252,6 @@ void main() {
 // Mandaremos o vértice, lembrando agora que leremos o vetor de três em três.
 utils.initBuffer({ vertices });
 utils.linkBuffer({ reading: 3 });
-
-// Mandaremos agora os vetores normais, também leremos de três em três.
-utils.initBuffer({ vertices: normals });
-utils.linkBuffer({ variable: "aNormal", reading: 3 });
 
 utils.initBuffer({ vertices: textureCoords });
 utils.linkBuffer({ variable: "aTextureCoord", reading: 2 });
@@ -527,80 +416,6 @@ document.getElementById("None").onclick = function (event) {
 };
 
 /************************************************/
-
-/***************************************************
-Agora vamos tratar da luz
-***************************************************/
-var uAmbientLight = [0.2, 0.2, 0.2]; // Luz ambiente fraca
-var uLightColor = [1.0, 1.0, 1.0]; // Luz  branca
-var uLightPosition = [1.0, 1.0, -2.0]; // Posição da luz
-
-//Cálculo da Direção do Spotlight: A direção do Spotlight é
-//simplesmente a direção do vetor que aponta do ponto de origem da luz
-//para o ponto de destino (0,0,0). A direção pode ser calculada
-//subtraindo a posição da luz das coordenadas do ponto de
-//destino. Como o ponto de destino é (0,0,0), o vetor direção será o
-//negativo da posição da luz:
-
-var uLightDirection = [
-  -uLightPosition[0],
-  -uLightPosition[1],
-  -uLightPosition[2],
-];
-
-// Precisaremos tratar a direção da luz para que esteja normalizada
-// com magnitudo 1. Isso é padrão em muitos cálculos de iluminação
-// para garantir que a intensidade da luz seja consistente e não
-// dependa da distância.
-function normalizeVector(vec) {
-  var len = Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]);
-  vec[0] /= len;
-  vec[1] /= len;
-  vec[2] /= len;
-}
-normalizeVector(uLightDirection); // Normalizar o vetor de direção
-
-// Configuração dos CutOffs: O cutOff é um ângulo em que a luz começa
-// a diminuir, enquanto o outerCutOff é onde a luz termina
-// completamente. Estes são valores em radianos. você precisa aplicar
-// o cosseno destes valores ao passá-los para o shader, pois os
-// cálculos no shader usam o cosseno dos ângulos para eficiência.
-var uCutOff = Math.cos(0);
-var uOuterCutOff = Math.cos(Math.PI / 20);
-
-utils.linkUniformVariable({
-  shaderName: "uAmbientLight",
-  value: uAmbientLight,
-  kind: "3fv",
-});
-utils.linkUniformVariable({
-  shaderName: "uLightColor",
-  value: uLightColor,
-  kind: "3fv",
-});
-utils.linkUniformVariable({
-  shaderName: "uLightPosition",
-  value: uLightPosition,
-  kind: "3fv",
-});
-
-utils.linkUniformVariable({
-  shaderName: "uLightDirection",
-  value: uLightDirection,
-  kind: "3fv",
-});
-utils.linkUniformVariable({
-  shaderName: "uCutOff",
-  value: uCutOff,
-  kind: "1f",
-});
-utils.linkUniformVariable({
-  shaderName: "uOuterCutOff",
-  value: uOuterCutOff,
-  kind: "1f",
-});
-
-/************************************************/
 // Capture os eventos do teclado
 /************************************************/
 var cameraPosition = { x: 0, y: 0, z: 5 };
@@ -715,8 +530,7 @@ utils.linkUniformMatrix({
   kind: "4fv",
 });
 
-// ToDo: Crie uma matriz de visualização olhando
-// para o centro do cubo.
+// ToDo: Crie uma matriz de visualização olhando para o centro do cubo.
 var viewMatrix = mat4.create();
 
 mat4.lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0]);
