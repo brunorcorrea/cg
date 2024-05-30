@@ -303,6 +303,8 @@ in vec2 vTextureCoord;
 in vec3 vViewPosition; // Posição do vértice vinda do vertex shader
 
 uniform sampler2D uSampler;
+uniform vec2 uTextureSize;
+uniform float uKernel[9];
 
 out vec4 fColor;
 
@@ -335,7 +337,21 @@ void main() {
     // Combina os componentes de iluminação
     vec3 lighting = (ambient + diffuse * intensity);
     //fColor = vec4(lighting, vColor.a); // Mantém o canal alpha da cor original
-    fColor = texture(uSampler, vTextureCoord);
+    vec2 onePixel = vec2(1.0, 1.0) / uTextureSize;
+
+    vec4 colorSum = vec4(0.0);
+    colorSum += texture(uSampler, vTextureCoord + onePixel * vec2(-1, -1)) * uKernel[0];
+    colorSum += texture(uSampler, vTextureCoord + onePixel * vec2( 0, -1)) * uKernel[1];
+    colorSum += texture(uSampler, vTextureCoord + onePixel * vec2( 1, -1)) * uKernel[2];
+    colorSum += texture(uSampler, vTextureCoord + onePixel * vec2(-1,  0)) * uKernel[3];
+    colorSum += texture(uSampler, vTextureCoord + onePixel * vec2( 0,  0)) * uKernel[4];
+    colorSum += texture(uSampler, vTextureCoord + onePixel * vec2( 1,  0)) * uKernel[5];
+    colorSum += texture(uSampler, vTextureCoord + onePixel * vec2(-1,  1)) * uKernel[6];
+    colorSum += texture(uSampler, vTextureCoord + onePixel * vec2( 0,  1)) * uKernel[7];
+    colorSum += texture(uSampler, vTextureCoord + onePixel * vec2( 1,  1)) * uKernel[8];
+
+    fColor = colorSum;
+    fColor.a = 1.0;
 }
 `,
 });
@@ -379,6 +395,20 @@ var scale = 0;
 
 // Velocidade da animação
 var speed = 100;
+
+// Suavização: Reduz o ruído com menos intensidade do que o desfoque gaussiano.
+var kernelSmooth = [1 / 8, 1 / 8, 1 / 8, 1 / 8, 0, 1 / 8, 1 / 8, 1 / 8, 1 / 8];
+
+// Nenhum: Não faz nada
+var kernelNone = [0, 0, 0, 0, 1, 0, 0, 0, 0];
+
+// Aguçamento: Acentua as bordas e detalhes da imagem.
+var kernelSharpening = [0, -1, 0, -1, 5, -1, 0, -1, 0];
+
+// Realce de Borda: Destaca as bordas na imagem ao subtrair a intensidade dos pixels vizinhos do pixel central.
+var kernelEdgeEnhancement = [-1, -1, -1, -1, 8, -1, -1, -1, -1];
+
+var kernel = kernelNone;
 
 document.getElementById("slider").onchange = function (event) {
   speed = 100 - event.target.value;
@@ -478,6 +508,22 @@ document.getElementById("TranslationStartZ").onclick = function (event) {
 
 document.getElementById("TranslationStopZ").onclick = function (event) {
   translation_z = 0;
+};
+
+document.getElementById("Smooth").onclick = function (event) {
+  kernel = kernelSmooth;
+};
+
+document.getElementById("Sharpening").onclick = function (event) {
+  kernel = kernelSharpening;
+};
+
+document.getElementById("EdgeEnhancement").onclick = function (event) {
+  kernel = kernelEdgeEnhancement;
+};
+
+document.getElementById("None").onclick = function (event) {
+  kernel = kernelNone;
 };
 
 /************************************************/
@@ -706,6 +752,12 @@ function render() {
     shaderName: "uScale",
     value: uScale,
     kind: "1f",
+  });
+
+  utils.linkUniformVariable({
+    shaderName: "uKernel",
+    value: kernel,
+    kind: "1fv",
   });
 
   utils.drawElements({ method: "TRIANGLES" });
